@@ -3,12 +3,31 @@
     <div class="col-md-10 col-lg-8 col-xl-7 mx-auto mt-5">
       <div class="card mb-2">
         <h5 class="text-muted m-3">Busqueda de usuarios</h5>
-        <div class="card-body d-flex justify-content-between py-2 m-2">              
-          <div class="input-group input-group-lg ">
-            <input type="text" class="form-control form-control-lg rounded" placeholder="Busca por nombre" aria-label="Search" [(ngModel)]="search_string" />
-          </div> 
-          <button type="button" class="btn btn-dark btn-rounded" (click)="searchUserByName()"> <i class="fa fa-search"> </i></button>
+         <form [formGroup]="formSearch" (ngSubmit)="onSubmit()">
+        <div class="card-body d-flex justify-content-between py-2 m-2">         
+            <div class="form-group col-12">
+              <div class="input-group ">
+                <input type="text" class="form-control" placeholder="Busca por nombre" aria-label="Search" formControlName="searchString" />
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-dark btn-block" (click)="searchUserByName()"> <i class="fa fa-search"> </i></button>
+                </div>
+              </div> 
+              <div *ngIf="f['searchString'].touched && f['searchString'].invalid"
+                  class="alert alert-danger col-12 mt-2">
+
+                <div *ngIf="f['searchString'].errors && f['searchString'].errors['required']">
+                  El campo es requerido
+                </div>
+                <div *ngIf="f['searchString'].errors && f['searchString'].errors['minlength']">
+                  El nombre debe tener al menos 4 caracteres.
+                </div>
+                <div *ngIf="f['searchString'].errors && f['searchString'].errors['pattern']">
+                  El nombre no puede ser: doublevpartners.
+                </div>
+              </div>                            
+            </div>
         </div>
+          </form>     
       </div>
       <div class="card">
         <h6 class="m-3 mb-4" style="color: #939597;">Resultados</h6>        

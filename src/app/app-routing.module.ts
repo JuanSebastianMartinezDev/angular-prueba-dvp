@@ -4,6 +4,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserSearchComponent } from './user-search/user-search.component';
 
 const routes: Routes = [
+	{ path: '', component: UserSearchComponent },
 	{ path: 'user-search', component: UserSearchComponent },
 	{ path: 'user-profile/:name', component: UserProfileComponent }
 ];
