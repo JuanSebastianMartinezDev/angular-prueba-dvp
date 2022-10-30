@@ -53,7 +53,6 @@ export class UserService {
     return of();
   }
 
-
   getReposByNameUser(url: string){
     let promise = new Promise((resolve, reject) => {
       this.http.get(url)

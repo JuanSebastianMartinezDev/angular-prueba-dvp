@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 export class ModalComponent implements OnInit {
 
     @Input() message = "";
+    @Input() title = "";
 
     myForm = new FormGroup({});
   	constructor(private activeModal: NgbActiveModal, private formBuilder: FormBuilder) {

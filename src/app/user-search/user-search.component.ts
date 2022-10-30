@@ -49,7 +49,7 @@ export class UserSearchComponent implements OnInit {
   get f() { return this.formSearch.controls; }
 
   onSubmit() {
-    if (this.formSearch.invalid) {
+    if(this.formSearch.invalid) {
         return;
     }else{
       this.searchUsersByName();

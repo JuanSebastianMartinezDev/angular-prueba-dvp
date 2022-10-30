@@ -16,7 +16,8 @@ export class User {
     public bio: string,
     public url: string,
     public followers: number,
-    public following: number    
+    public following: number,    
+    public score: number,    
   ){}
 }
 
@@ -37,6 +38,7 @@ export class UserAdapter implements Adapter<User> {
     item.bio,
     item.url,
     item.followers,
-    item.following);
+    item.following,
+    item.score);
   }
 }
