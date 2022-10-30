@@ -1,55 +1,79 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
-export interface User {
-  id: string;
-  login: string;
-  avatar_url: string;
-  avatar_url: string;
-}
+import { User, UserAdapter } from '../models/user.model';
+import { ModalComponent } from '../modal/modal.component';
+import { NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { map } from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  
-  private users: User[];
-  private user: User;
 
-  constructor(private http: HttpClient;
-    this.users = [];
-    this.user = new Subject();
-  ) { }
+  constructor(
+    private http: HttpClient,
+    public modalService: NgbModal,
+    private adapter: UserAdapter
+    ) { }
 
   getAllUsers(): Observable<User[]> {
-    let users=[];
-    this.http.get('https://api.github.com/search/users?q=').subscribe( (data: any) => {
-      if(!data.errors){
-        this.users=data.items.slice(0,10);
-      }
-    });    
+    this.http.get('https://api.github.com/search/users?q=').pipe(
+      // Adapt with each cycle
+      map((data: any) =>  {
+        console.log(data);
+        return data.items.slice(0,10).map((item: any) => this.adapter.adapt(item)) 
 
-    return users;
+      })
+    );  
+
+    return of([]);
   }
 
-  getUsersByStringName(name: string): Observable<User> {
-    this.http.get('https://api.github.com/search/users?q='+name).subscribe( (data: any) => {
-      if(!data.errors){
-        users=data.items.slice(0,10);
-      }
-    });
+  getUsersByStringName(name: string): Observable<User[]> {
+    return this.http.get('https://api.github.com/search/users?q='+name).pipe(
+      // Adapt with each cycle
+      map((data: any) =>  {
+        console.log(data);
+        return data.items.slice(0,10).map((item: any) => this.adapter.adapt(item)) 
 
-    return users;
+      })
+    );
+
+    return of([]);
   }
 
-  getUserByName(name: string): Observable<User> {
-    let user='';
-    this.http.get('https://api.github.com/users/'+name).subscribe( (data: any) => {
-      if(!data.errors){
-        user=data.items.slice(0,10);
-      }
-    });
+  getUserDetailByName(name: string): Observable<User> {
+    return this.http.get('https://api.github.com/users/'+name).pipe(
+      // Adapt with each cycle
+      map((data: any) =>  {
+        console.log(data);
+        return this.adapter.adapt(data);
+      })
+    );
 
-    return user;
+    return of();
+  }
+
+
+  getReposByNameUser(url: string){
+    let promise = new Promise((resolve, reject) => {
+      this.http.get(url)
+        .toPromise()
+        .then(
+          (res: any) => { // Success
+            console.log('Success resulta repos');
+            var repos=res.map((data: any) =>  {
+              console.log(data);
+              return this.adapter.adapt(data);
+            })
+            resolve(repos);
+          },
+          (msg: any) => { // Error
+            reject(msg);
+          }
+        );
+    });
+    return promise;    
+
   }
 
 
