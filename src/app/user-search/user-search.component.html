@@ -9,7 +9,7 @@
               <div class="input-group ">
                 <input type="text" class="form-control" placeholder="Busca por nombre" aria-label="Search" formControlName="searchString" />
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-dark btn-block" (click)="searchUserByName()"> <i class="fa fa-search"> </i></button>
+                    <button type="button" class="btn btn-dark btn-block" (click)="searchUsersByName()"> <i class="fa fa-search"> </i></button>
                 </div>
               </div> 
               <div *ngIf="f['searchString'].touched && f['searchString'].invalid"

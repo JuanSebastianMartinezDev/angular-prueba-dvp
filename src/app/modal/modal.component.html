@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title">Ups, Ocurrio un error</h4>
+  <a class="close" aria-label="Close" (click)="closeForm()">
+  	
+  </a>
+</div>
+
+<form [formGroup]="myForm" (ngSubmit)="closeForm()">
+<div class="modal-body">
+  <div class="container">
+	<strong *ngIf="message">{{message}}</strong>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" (click)="closeForm()">Ok</button>
+</div>
+</form>
